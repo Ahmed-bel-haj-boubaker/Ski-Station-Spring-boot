@@ -1,11 +1,10 @@
 package com.ski.skistation.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -18,4 +17,12 @@ public class Inscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long numInscription;
     Integer numSemaine;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    Cours cours;
+
+    @ManyToOne
+    @JoinColumn(name = "skieur_id")
+    Skieur skieurs;
 }

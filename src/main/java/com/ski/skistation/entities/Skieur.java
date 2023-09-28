@@ -30,5 +30,8 @@ public class Skieur {
         inverseJoinColumns = @JoinColumn(name = "pistes_num_piste"))
     Set<Piste> pistes;
 
+    @OneToMany(mappedBy = "skieurs")
+    Set<Inscription> inscriptions ;
+
 
 }

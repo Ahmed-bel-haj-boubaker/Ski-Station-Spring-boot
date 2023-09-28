@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -25,6 +27,9 @@ public class Cours {
 
     Float prix;
     Integer creneau;
+
+    @OneToMany(mappedBy = "cours")
+    Set<Inscription> inscriptions ;
 
 
 

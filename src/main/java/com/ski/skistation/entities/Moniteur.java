@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,4 +21,7 @@ public class Moniteur {
     String nomM;
     String prenomM;
     LocalDate dateRecru;
+
+    @OneToMany
+    Set<Cours> cours ;
 }
