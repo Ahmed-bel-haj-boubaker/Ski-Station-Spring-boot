@@ -6,14 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 @Repository
-public interface PisteRepository extends CrudRepository<Piste,String> {
+public interface PisteRepository extends CrudRepository<Piste,Long> {
 
-    List<Piste> retrieveAllPistes();
 
-    Piste addPiste(Piste piste);
-
-    Piste updatePiste(Piste piste);
-
-    Piste retrievePiste(Long numPiste);
 
 }
