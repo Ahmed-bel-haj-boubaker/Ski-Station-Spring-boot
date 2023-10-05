@@ -36,6 +36,9 @@ public Optional<Cours> retrieveCours(@PathVariable("numCours") Long numCours){
     return iserviceCours.updateCours(cours);
 }
 
-
+@DeleteMapping("/deleteCours/{numCours}")
+    public void removeCours(@PathVariable("numCours") Long numCours){
+    iserviceCours.removeCours(numCours);
+}
 
 }
