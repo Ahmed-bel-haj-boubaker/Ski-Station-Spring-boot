@@ -1,5 +1,6 @@
 package com.ski.skistation.service;
 
+import com.ski.skistation.entities.Moniteur;
 import com.ski.skistation.entities.Piste;
 
 import java.util.List;
@@ -8,9 +9,13 @@ public interface IservicePiste {
 
     List<Piste> retrieveAllPistes();
 
-    Piste addPiste(Piste piste);
+    Moniteur addPistes(Piste piste);
 
-    Piste updatePiste(Piste piste);
+    Moniteur updatePistes(Piste piste);
 
-    Piste retrievePiste(Long numPiste);
+    List<Piste> retrievePistes(Long numPiste);
+
+    void removePistes(Long numPiste);
 }
+
+

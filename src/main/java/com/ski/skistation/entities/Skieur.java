@@ -28,10 +28,10 @@ public class Skieur {
         name = "piste_skieur",
         joinColumns = @JoinColumn(name = "skieurs_num_skieur"),
         inverseJoinColumns = @JoinColumn(name = "pistes_num_piste"))
-    Set<Piste> pistes;
+        Set<Piste> pistes;
 
     @OneToMany(mappedBy = "skieurs")
     Set<Inscription> inscriptions ;
-
-
+    @OneToOne(cascade = CascadeType.ALL)
+    Abonnement abonnement;
 }

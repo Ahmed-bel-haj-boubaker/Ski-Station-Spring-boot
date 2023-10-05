@@ -3,6 +3,7 @@ package com.ski.skistation.service;
 import com.ski.skistation.entities.Skieur;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IserviceSkieur {
 
@@ -12,8 +13,8 @@ public interface IserviceSkieur {
 
     Skieur updateSkieur(Skieur skieur);
 
-    Skieur retrieveSkieur(Long numSkieur);
-    void removeSkieur(String numSkieur );
+    Optional<Skieur> retrieveSkieur(Long numSkieur);
+    void removeSkieur(Long numSkieur );
 
 
 }

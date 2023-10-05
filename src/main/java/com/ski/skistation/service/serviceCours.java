@@ -32,11 +32,22 @@ public class serviceCours implements IserviceCours {
 
     @Override
     public Optional<Cours> retrieveCours(Long numCours) {
-        return coursRepo.findById(numCours);
+        Optional<Cours> cours = coursRepo.findById(numCours);
+        if(cours.isPresent()){
+
+            return cours ;
+        }else {
+            throw new IllegalArgumentException("Cours with ID " + numCours + " not found");
+        }
     }
 
     @Override
     public void removeCours(Long numCours) {
-        coursRepo.deleteById(numCours);
+        if (coursRepo.existsById(numCours)) {
+            coursRepo.deleteById(numCours);
+        } else {
+            throw new IllegalArgumentException("Cours with ID " + numCours + " not found");
+
+        }
     }
 }
