@@ -1,7 +1,10 @@
 package com.ski.skistation.service;
 
 import com.ski.skistation.entities.Inscription;
+import com.ski.skistation.entities.Skieur;
 import com.ski.skistation.repository.InscriptionRepository;
+import com.ski.skistation.repository.SkieurRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,8 @@ public class serviceIscription implements IserviceInscription{
 
     @Autowired
     InscriptionRepository inscriptionRepo;
+    @Autowired
+    SkieurRepository skieurRepository;
     @Override
     public List<Inscription> retrieveAllInscriptions() {
         return (List<Inscription>) inscriptionRepo.findAll();
@@ -46,5 +51,13 @@ public class serviceIscription implements IserviceInscription{
         inscriptionRepo.deleteById(numInscription);
         return !(inscriptionRepo.existsById(numInscription));
 
+    }
+
+    @Override
+    public Inscription addRegistrationAndAssignToSkieur(Inscription inscription, Long numSkieur) {
+
+        Skieur skieur = skieurRepository.findById(numSkieur).get();
+        inscription.setSkieurs(skieur);
+        return inscriptionRepo.save(inscription);
     }
 }

@@ -16,4 +16,6 @@ public interface IserviceInscription {
     Optional<Inscription> retrieveInscriptions(Long numInscription);
 
     boolean removeInscriptions(Long numInscription);
+
+    Inscription addRegistrationAndAssignToSkieur(Inscription inscription,Long numSkieur);
 }
