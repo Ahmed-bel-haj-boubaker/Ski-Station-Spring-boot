@@ -44,11 +44,18 @@ public class inscriptionController {
         iserviceInscription.removeInscriptions(numInscription);
     }
 
-    @PostMapping("/addRegister/:numSkieur")
+    @PostMapping("/addRegisterToSkieur")
 
-    public Inscription addRegisterationAndAssignToSkieur(@RequestBody  Inscription inscription ,@PathVariable("numSkieur") Long numSkieur){
+    public Inscription addRegisterationAndAssignToSkieur(@RequestBody  Inscription inscription ,@RequestParam Long numSkieur){
 
         iserviceInscription.addRegistrationAndAssignToSkieur(inscription,numSkieur);
         return inscription;
+    }
+
+    @PostMapping("/addRegisterToCours")
+
+    public Inscription addRegisterationAndAssignToCours(@RequestParam Long numInscription , @RequestParam Long numCours){
+
+       return iserviceInscription.assignRegistrationToCourse(numInscription,numCours);
     }
 }

@@ -1,6 +1,7 @@
 package com.ski.skistation.controller;
 
 import com.ski.skistation.entities.Skieur;
+import com.ski.skistation.service.IservicePiste;
 import com.ski.skistation.service.IserviceSkieur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,8 @@ public class skieurController {
 
     @Autowired
     IserviceSkieur iserviceSkieur;
+
+
 
 @GetMapping
     public List<Skieur> getAllSkieurs(){
@@ -42,5 +45,13 @@ public class skieurController {
     iserviceSkieur.removeSkieur(numSkieur);
     }
 
+
+    @GetMapping ("/AddSkieurToPiste")
+
+    public  long assignSkieurToPiste(@RequestParam Long numSkieur,@RequestParam Long numPiste){
+
+return iserviceSkieur.assignSkieurToPiste(numSkieur,numPiste);
+
+    }
 
 }

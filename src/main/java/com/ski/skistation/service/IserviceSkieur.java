@@ -16,5 +16,7 @@ public interface IserviceSkieur {
     Optional<Skieur> retrieveSkieur(Long numSkieur);
     void removeSkieur(Long numSkieur );
 
+    long assignSkieurToPiste(Long numSkieur , Long numPiste);
+
 
 }

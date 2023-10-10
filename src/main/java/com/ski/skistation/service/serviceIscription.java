@@ -1,7 +1,9 @@
 package com.ski.skistation.service;
 
+import com.ski.skistation.entities.Cours;
 import com.ski.skistation.entities.Inscription;
 import com.ski.skistation.entities.Skieur;
+import com.ski.skistation.repository.CoursRepository;
 import com.ski.skistation.repository.InscriptionRepository;
 import com.ski.skistation.repository.SkieurRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -17,6 +19,8 @@ public class serviceIscription implements IserviceInscription{
     InscriptionRepository inscriptionRepo;
     @Autowired
     SkieurRepository skieurRepository;
+    @Autowired
+    CoursRepository coursRepository;
     @Override
     public List<Inscription> retrieveAllInscriptions() {
         return (List<Inscription>) inscriptionRepo.findAll();
@@ -59,5 +63,16 @@ public class serviceIscription implements IserviceInscription{
         Skieur skieur = skieurRepository.findById(numSkieur).get();
         inscription.setSkieurs(skieur);
         return inscriptionRepo.save(inscription);
+    }
+
+    @Override
+    public Inscription assignRegistrationToCourse(Long numInscription, Long numCours) {
+        Cours cours = coursRepository.findById(numCours).get();
+        Inscription inscription = inscriptionRepo.findById(numInscription).get();
+
+        inscription.setCours(cours);
+        inscriptionRepo.save(inscription);
+
+     return inscription;
     }
 }

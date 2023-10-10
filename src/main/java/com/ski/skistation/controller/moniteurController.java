@@ -42,4 +42,11 @@ public class moniteurController {
         iserviceMoniteur.removeMoniteur(numMoniteur);
     }
 
+    @PostMapping("/addMoniteurAndAssignToCours")
+
+    public Moniteur addMoniteurAndAssignToCours(@RequestBody  Moniteur moniteur, @RequestParam Long numCours){
+
+     return    iserviceMoniteur.addInstructorAndAssignToCourse(moniteur,numCours);
+    }
+
 }

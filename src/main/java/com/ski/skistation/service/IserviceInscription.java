@@ -18,4 +18,6 @@ public interface IserviceInscription {
     boolean removeInscriptions(Long numInscription);
 
     Inscription addRegistrationAndAssignToSkieur(Inscription inscription,Long numSkieur);
+
+    Inscription assignRegistrationToCourse(Long numInscription , Long numCours);
 }
