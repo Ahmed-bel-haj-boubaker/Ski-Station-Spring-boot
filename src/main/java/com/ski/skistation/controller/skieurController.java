@@ -1,8 +1,9 @@
 package com.ski.skistation.controller;
 
 import com.ski.skistation.entities.Skieur;
-import com.ski.skistation.service.IservicePiste;
+import com.ski.skistation.entities.enums.TypeAbonnement;
 import com.ski.skistation.service.IserviceSkieur;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,14 +12,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/skieur")
+@RequiredArgsConstructor // injection par constructeur ( lombok ) on n a pas besoin d utiliser le @Autowired
+
 public class skieurController {
 
-    @Autowired
-    IserviceSkieur iserviceSkieur;
+ private final  IserviceSkieur iserviceSkieur;
 
 
 
-@GetMapping
+
+    @GetMapping
     public List<Skieur> getAllSkieurs(){
         return iserviceSkieur.retrieveAllSkieurs();
     }
@@ -46,12 +49,25 @@ public class skieurController {
     }
 
 
-    @GetMapping ("/AddSkieurToPiste")
+    @PostMapping ("/AddSkieurToPiste")
 
     public  long assignSkieurToPiste(@RequestParam Long numSkieur,@RequestParam Long numPiste){
 
 return iserviceSkieur.assignSkieurToPiste(numSkieur,numPiste);
 
+    }
+
+    @PostMapping("/addSkierAndAssignToCourse/{numCourse}")
+
+    public Skieur addSkierAndAssignToCourse(@RequestBody Skieur skieur,@PathVariable Long numCourse){
+    return  iserviceSkieur.addSkieurAndAssignToCourse(skieur,numCourse);
+    }
+
+    @GetMapping("/findSkieurByTypeAbon")
+
+    public List<Skieur> getSkieursBySubscriptionType(@RequestParam String subscriptionType) {
+        TypeAbonnement typeAbonnement = TypeAbonnement.valueOf(subscriptionType); // Convert the request parameter to an enum
+        return iserviceSkieur.retrieveSkieurBySubscriptionType(typeAbonnement);
     }
 
 }

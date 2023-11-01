@@ -1,10 +1,15 @@
 package com.ski.skistation.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "numSkieur")
 public class Skieur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +27,7 @@ public class Skieur {
      String prenomS;
      LocalDate dateNaissance;
      String villa;
-
+@JsonIgnore
 @ManyToMany
 
 @JoinTable(
@@ -34,4 +40,5 @@ public class Skieur {
     Set<Inscription> inscriptions ;
     @OneToOne(cascade = CascadeType.ALL)
     Abonnement abonnement;
+
 }

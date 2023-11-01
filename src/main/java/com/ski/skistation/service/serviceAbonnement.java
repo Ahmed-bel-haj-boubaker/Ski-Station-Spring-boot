@@ -1,6 +1,7 @@
 package com.ski.skistation.service;
 
 import com.ski.skistation.entities.Abonnement;
+import com.ski.skistation.entities.enums.TypeAbonnement;
 import com.ski.skistation.repository.AbonnementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,8 @@ public class serviceAbonnement implements IserviceAbonnement{
         }
     }
 
+
+
     @Override
     public void removeAbonnements(Long numAbon) {
         if (repoAbon.existsById(numAbon)) {
@@ -47,5 +50,10 @@ public class serviceAbonnement implements IserviceAbonnement{
 
         }
 
+    }
+
+    @Override
+    public List<Abonnement> getSubsciptionByType(TypeAbonnement typeAbonnement) {
+        return repoAbon.getSubscriptionByType(typeAbonnement);
     }
 }

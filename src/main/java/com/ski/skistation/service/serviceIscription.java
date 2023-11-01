@@ -3,12 +3,13 @@ package com.ski.skistation.service;
 import com.ski.skistation.entities.Cours;
 import com.ski.skistation.entities.Inscription;
 import com.ski.skistation.entities.Skieur;
+import com.ski.skistation.entities.enums.TypeAbonnement;
 import com.ski.skistation.repository.CoursRepository;
 import com.ski.skistation.repository.InscriptionRepository;
 import com.ski.skistation.repository.SkieurRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,10 +51,10 @@ public class serviceIscription implements IserviceInscription{
     }
 
     @Override
-    public boolean removeInscriptions(Long numInscription) {
+    public void removeInscriptions(Long numInscription) {
 
         inscriptionRepo.deleteById(numInscription);
-        return !(inscriptionRepo.existsById(numInscription));
+        inscriptionRepo.existsById(numInscription);
 
     }
 
@@ -64,15 +65,17 @@ public class serviceIscription implements IserviceInscription{
         inscription.setSkieurs(skieur);
         return inscriptionRepo.save(inscription);
     }
-
+@Transactional  //permet d annuler toutes transaction au cas d erreur
     @Override
     public Inscription assignRegistrationToCourse(Long numInscription, Long numCours) {
-        Cours cours = coursRepository.findById(numCours).get();
-        Inscription inscription = inscriptionRepo.findById(numInscription).get();
+        Cours cours = coursRepository.findById(numCours).orElse(null);
+        Inscription inscription = inscriptionRepo.findById(numInscription).orElse(null);
 
         inscription.setCours(cours);
         inscriptionRepo.save(inscription);
 
      return inscription;
     }
+
+
 }

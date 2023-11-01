@@ -1,7 +1,9 @@
 package com.ski.skistation.controller;
 
 import com.ski.skistation.entities.Abonnement;
+import com.ski.skistation.entities.enums.TypeAbonnement;
 import com.ski.skistation.service.IserviceAbonnement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +12,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/abonnement")
+@RequiredArgsConstructor
 public class abonnementController {
-    @Autowired
-    IserviceAbonnement iserviceAbonnement;
+
+  private  final  IserviceAbonnement iserviceAbonnement;
 
     @GetMapping
     public List<Abonnement> getAll(){
@@ -36,6 +39,11 @@ public class abonnementController {
     public void deleteAbonnement(@PathVariable("numAbon") Long numAbon){
         iserviceAbonnement.removeAbonnements(numAbon);
 
+    }
+
+    @GetMapping("/subscriptions")
+    public List<Abonnement> getSubscriptionsByType(@RequestParam TypeAbonnement typeAbonnement) {
+        return iserviceAbonnement.getSubsciptionByType(typeAbonnement);
     }
 
 }

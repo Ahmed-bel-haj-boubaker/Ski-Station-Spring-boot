@@ -1,22 +1,26 @@
 package com.ski.skistation.service;
 
-import com.ski.skistation.entities.Piste;
-import com.ski.skistation.entities.Skieur;
-import com.ski.skistation.repository.PisteRepository;
-import com.ski.skistation.repository.SkieurRepository;
+import com.ski.skistation.entities.*;
+import com.ski.skistation.entities.enums.TypeAbonnement;
+import com.ski.skistation.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class serviceSkieur implements  IserviceSkieur{
 
-    @Autowired
-    SkieurRepository skieurRep;
-    @Autowired
-    PisteRepository pisteRepository;
+    final SkieurRepository skieurRep;
+    final  PisteRepository pisteRepository;
+    final  AbonnementRepository abonnementRepository;
+    final InscriptionRepository inscriptionRepository;
+    final CoursRepository coursRepository;
 
     @Override
     public List<Skieur> retrieveAllSkieurs() {
@@ -32,6 +36,7 @@ public class serviceSkieur implements  IserviceSkieur{
     public Skieur updateSkieur(Skieur skieur) {
           return skieurRep.save(skieur);
     }
+
 
     @Override
     public Optional<Skieur> retrieveSkieur(Long numSkieur) {
@@ -65,6 +70,33 @@ public class serviceSkieur implements  IserviceSkieur{
         skieurRep.save(skieur);
 
        return skieur.getNumSkieur();
+
+    }
+//@Transactional on l utilise lorsque une recuperation de la base donnee managed entity
+    @Override
+    public Skieur addSkieurAndAssignToCourse(Skieur skieur, Long numCourse) {
+      //  Abonnement abonnement = skieur.getAbonnement(); car on a une aggregation entre skieur et abonnement
+
+        //recuperation des objets
+        Cours cours = coursRepository.findById(numCourse).orElse(null);
+
+        Inscription inscription = skieur.getInscriptions().stream().findFirst().get();
+
+
+
+        inscription.setSkieurs(skieur);
+        inscription.setCours(cours);
+
+
+        skieurRep.save(skieur);
+        inscriptionRepository.save(inscription);
+
+        return skieur;
+    }
+
+    @Override
+    public List<Skieur> retrieveSkieurBySubscriptionType(TypeAbonnement typeAbonnement) {
+        return skieurRep.findByAbonnementTypeAbonnement(typeAbonnement);
 
     }
 }

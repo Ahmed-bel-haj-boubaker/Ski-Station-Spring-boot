@@ -36,14 +36,10 @@ public class serviceMoniteur implements  IserviceMoniteur{
 
     @Override
     public Optional<Moniteur> retrieveMoniteur(Long numMoniteur) {
-         Optional< Moniteur > moniteur = moniteurRepo.findById(numMoniteur);
 
-        if (moniteur.isPresent()) {
-            return moniteur;
-        } else {
-            // Handle the case where no Inscription was found with the specified ID, e.g., return an empty Optional or throw an exception.
-            return Optional.empty(); // You can change this to your desired behavior.
-        }
+        // Handle the case where no Inscription was found with the specified ID, e.g., return an empty Optional or throw an exception.
+        // You can change this to your desired behavior.
+        return moniteurRepo.findById(numMoniteur);
     }
 
     @Override
