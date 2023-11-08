@@ -1,6 +1,7 @@
 package com.ski.skistation.service;
 
 import com.ski.skistation.entities.Inscription;
+import com.ski.skistation.entities.enums.Support;
 import com.ski.skistation.entities.enums.TypeAbonnement;
 
 import java.util.List;
@@ -21,5 +22,10 @@ public interface IserviceInscription {
     Inscription addRegistrationAndAssignToSkieur(Inscription inscription,Long numSkieur);
 
     Inscription assignRegistrationToCourse(Long numInscription , Long numCours);
+
+    Inscription addRegistrationAndAssignToSkieurAndCours(Inscription inscription, Long numCours , Long numSkieur);
+
+    List<Integer> numWeeksCourseOfInstructorBySupport(Long numMoniteur, Support support);
+
 
 }

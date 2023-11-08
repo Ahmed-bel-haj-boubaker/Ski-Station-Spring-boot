@@ -62,9 +62,9 @@ public class serviceSkieur implements  IserviceSkieur{
     @Override
     public long assignSkieurToPiste(Long numSkieur, Long numPiste) {
 
-        Skieur skieur = skieurRep.findById(numSkieur).get();
+        Skieur skieur = skieurRep.findById(numSkieur).orElse(null);
         System.out.println(skieur);
-        Piste piste = pisteRepository.findById(numPiste).get();
+        Piste piste = pisteRepository.findById(numPiste).orElse(null);
         System.out.println(piste);
         skieur.getPistes().add(piste);
         skieurRep.save(skieur);
@@ -99,4 +99,5 @@ public class serviceSkieur implements  IserviceSkieur{
         return skieurRep.findByAbonnementTypeAbonnement(typeAbonnement);
 
     }
+
 }

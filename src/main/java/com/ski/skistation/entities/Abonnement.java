@@ -24,7 +24,7 @@ public class Abonnement {
     Float prixAbon;
 
     @Enumerated(EnumType.STRING)
-    TypeAbonnement TypeAbonnement;
+    TypeAbonnement typeAbonnement;
 
 
 }

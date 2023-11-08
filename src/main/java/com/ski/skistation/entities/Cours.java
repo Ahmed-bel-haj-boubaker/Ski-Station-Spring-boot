@@ -23,7 +23,10 @@ public class Cours {
 
     @Enumerated(EnumType.STRING)
     TypeCours TypeCours;
-    Support Support;
+
+
+    @Enumerated(EnumType.STRING)
+    Support support;
 
     Float prix;
     Integer creneau;

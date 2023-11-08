@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,8 @@ public class abonnementController {
         return iserviceAbonnement.addAbonnements(abonnement);
     }
     @GetMapping("/{numAbonnement}")
-    public Optional<Abonnement> getByIdAbonnement(@PathVariable("numAbonnement") Long numAbon){
-        return (Optional<Abonnement>) iserviceAbonnement.retrieveAbonnements(numAbon);
+    public Abonnement getByIdAbonnement(@PathVariable("numAbonnement") Long numAbon){
+        return  iserviceAbonnement.retrieveAbonnements(numAbon);
     }
 
     @PutMapping("/updateAbonnement")
@@ -37,13 +38,20 @@ public class abonnementController {
 
     @DeleteMapping("/deleteAbonnement/{numAbon}")
     public void deleteAbonnement(@PathVariable("numAbon") Long numAbon){
+
         iserviceAbonnement.removeAbonnements(numAbon);
 
     }
 
     @GetMapping("/subscriptions")
     public List<Abonnement> getSubscriptionsByType(@RequestParam TypeAbonnement typeAbonnement) {
-        return iserviceAbonnement.getSubsciptionByType(typeAbonnement);
+        return iserviceAbonnement.getAbonnementByType(typeAbonnement);
+    }
+
+    @GetMapping("/getAbonnementByDate")
+    public List<Abonnement> getAbonnementByDate(@RequestParam LocalDate dateDebut , @RequestParam LocalDate dateFin){
+return iserviceAbonnement.findByDateDebutAfterAndDataFinAfter(dateDebut,dateFin);
+
     }
 
 }

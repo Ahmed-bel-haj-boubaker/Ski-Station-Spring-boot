@@ -2,10 +2,12 @@ package com.ski.skistation.service;
 
 import com.ski.skistation.entities.Abonnement;
 import com.ski.skistation.entities.enums.TypeAbonnement;
+import com.ski.skistation.exceptions.ResourceNotFoundException;
 import com.ski.skistation.repository.AbonnementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -30,13 +32,11 @@ public class serviceAbonnement implements IserviceAbonnement{
     }
 
     @Override
-    public Optional<Abonnement> retrieveAbonnements(Long numAbon) {
-        Optional<Abonnement> abonnement = repoAbon.findById(numAbon);
-        if(abonnement.isPresent()){
-            return abonnement;
-        }else {
-            throw new IllegalArgumentException("Abonnement with ID " + numAbon + " not found");
-        }
+    public Abonnement retrieveAbonnements(Long numAbon) {
+        Abonnement abonnement = repoAbon.findById(numAbon).orElseThrow(
+                ()-> new ResourceNotFoundException("abonnement","id", numAbon)
+        );
+   return abonnement;
     }
 
 
@@ -46,7 +46,7 @@ public class serviceAbonnement implements IserviceAbonnement{
         if (repoAbon.existsById(numAbon)) {
             repoAbon.deleteById(numAbon);
         } else {
-            throw new IllegalArgumentException("Abonnement with ID " + numAbon + " not found");
+            throw new ResourceNotFoundException("abonnement","id", numAbon);
 
         }
 
@@ -55,5 +55,20 @@ public class serviceAbonnement implements IserviceAbonnement{
     @Override
     public List<Abonnement> getSubsciptionByType(TypeAbonnement typeAbonnement) {
         return repoAbon.getSubscriptionByType(typeAbonnement);
+    }
+
+    @Override
+    public List<Abonnement> getAbonnementByDate(LocalDate dateDebut, LocalDate dateFin) {
+        return repoAbon.getAbonnementByDate(dateDebut,dateFin);
+    }
+
+    @Override
+    public List<Abonnement> getAbonnementByType(TypeAbonnement typeAbonnement) {
+        return repoAbon.findByTypeAbonnementOrderByDateDebut(typeAbonnement);
+    }
+
+    @Override
+    public List<Abonnement> findByDateDebutAfterAndDataFinAfter(LocalDate dateDebut, LocalDate dateFin) {
+        return repoAbon.findByDateDebutAfterAndDataFinBefore(dateDebut,dateFin);
     }
 }

@@ -1,12 +1,16 @@
 package com.ski.skistation.service;
 
+import com.ski.skistation.configs.UtilityFunctions;
 import com.ski.skistation.entities.Cours;
 import com.ski.skistation.entities.Inscription;
 import com.ski.skistation.entities.Skieur;
+import com.ski.skistation.entities.enums.Support;
 import com.ski.skistation.entities.enums.TypeAbonnement;
+import com.ski.skistation.entities.enums.TypeCours;
 import com.ski.skistation.repository.CoursRepository;
 import com.ski.skistation.repository.InscriptionRepository;
 import com.ski.skistation.repository.SkieurRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 @Service
+@Slf4j
 public class serviceIscription implements IserviceInscription{
 
     @Autowired
@@ -77,5 +82,40 @@ public class serviceIscription implements IserviceInscription{
      return inscription;
     }
 
+    @Override
+    public Inscription addRegistrationAndAssignToSkieurAndCours(Inscription inscription, Long numCours, Long numSkieur) {
 
+       Cours cours =  coursRepository.getCoursByNumCours(numCours);
+       Skieur skieur=  skieurRepository.getSkieurByNumSkieur(numSkieur);
+
+        int age = UtilityFunctions.calculateAge(skieur.getDateNaissance());
+        if(cours.getTypeCours().equals(TypeCours.COLLECTIF_ADULTE) && age > 18){
+            if (cours.getInscriptions().size() < 1){
+
+                inscription.setSkieurs(skieur);
+                inscription.setCours(cours);
+                inscriptionRepo.save(inscription);
+
+
+            }
+        } else if (cours.getTypeCours().equals(TypeCours.COLLECTIF_ENFANT) && age < 18) {
+            if(cours.getInscriptions().size() < 1){
+
+                inscription.setSkieurs(skieur);
+                inscription.setCours(cours);
+                inscriptionRepo.save(inscription);
+            }
+
+        }else {
+            log.info("error");
+        }
+
+
+        return inscription;
+    }
+
+    @Override
+    public List<Integer> numWeeksCourseOfInstructorBySupport(Long numMoniteur, Support support) {
+        return inscriptionRepo.numWeeksCoursOfMoniteurBySupport(numMoniteur,support);
+    }
 }

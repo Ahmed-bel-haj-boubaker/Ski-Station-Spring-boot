@@ -2,6 +2,7 @@
 
     import com.ski.skistation.entities.Inscription;
 
+    import com.ski.skistation.entities.enums.Support;
     import com.ski.skistation.service.IserviceInscription;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,16 @@
         public Inscription addRegisterationAndAssignToCours(@RequestParam Long numInscription , @RequestParam Long numCours){
 
            return iserviceInscription.assignRegistrationToCourse(numInscription,numCours);
+        }
+
+        @PostMapping("/addRegisterAndAssignItToSkieurAndCours")
+
+        public Inscription addRegisterAndAssignItToSkieurAndCours(@RequestBody Inscription inscription,@RequestParam Long numCours ,@RequestParam Long numSkieur){
+            return iserviceInscription.addRegistrationAndAssignToSkieurAndCours(inscription,numCours,numSkieur);
+        }
+
+        @GetMapping("/numWeeksCourseOfInstructorBySupport")
+        List<Integer> numWeeksCourseOfInstructorBySupport(Long numMoniteur, Support support){
+            return iserviceInscription.numWeeksCourseOfInstructorBySupport(numMoniteur,support);
         }
     }
