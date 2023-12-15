@@ -2,6 +2,7 @@ package com.ski.skistation.controller;
 
 import com.ski.skistation.entities.Abonnement;
 import com.ski.skistation.entities.enums.TypeAbonnement;
+import com.ski.skistation.repository.AbonnementRepository;
 import com.ski.skistation.service.IserviceAbonnement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class abonnementController {
     @GetMapping
     public List<Abonnement> getAll(){
         return iserviceAbonnement.retrieveAllAbonnements();
+
+
     }
     @PostMapping("/addAbon")
     public Abonnement addAbonnement(@RequestBody Abonnement abonnement){
@@ -28,6 +31,7 @@ public class abonnementController {
     }
     @GetMapping("/{numAbonnement}")
     public Abonnement getByIdAbonnement(@PathVariable("numAbonnement") Long numAbon){
+
         return  iserviceAbonnement.retrieveAbonnements(numAbon);
     }
 
@@ -53,5 +57,5 @@ public class abonnementController {
 return iserviceAbonnement.findByDateDebutAfterAndDataFinAfter(dateDebut,dateFin);
 
     }
-
+//@Transactional ( managed entity ) objet recupere de la db
 }

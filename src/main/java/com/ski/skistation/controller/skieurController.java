@@ -53,7 +53,7 @@ public class skieurController {
 
     public  long assignSkieurToPiste(@RequestParam Long numSkieur,@RequestParam Long numPiste){
 
-return iserviceSkieur.assignSkieurToPiste(numSkieur,numPiste);
+       return iserviceSkieur.assignSkieurToPiste(numSkieur,numPiste);
 
     }
 

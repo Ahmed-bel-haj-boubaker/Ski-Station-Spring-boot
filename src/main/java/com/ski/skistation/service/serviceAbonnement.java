@@ -4,6 +4,9 @@ import com.ski.skistation.entities.Abonnement;
 import com.ski.skistation.entities.enums.TypeAbonnement;
 import com.ski.skistation.exceptions.ResourceNotFoundException;
 import com.ski.skistation.repository.AbonnementRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +14,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class serviceAbonnement implements IserviceAbonnement{
 
-    @Autowired
-    public AbonnementRepository repoAbon;
+  private final AbonnementRepository repoAbon;
     @Override
     public List<Abonnement> retrieveAllAbonnements() {
         return (List<Abonnement>)repoAbon.findAll();
@@ -33,10 +37,12 @@ public class serviceAbonnement implements IserviceAbonnement{
 
     @Override
     public Abonnement retrieveAbonnements(Long numAbon) {
+
         Abonnement abonnement = repoAbon.findById(numAbon).orElseThrow(
                 ()-> new ResourceNotFoundException("abonnement","id", numAbon)
         );
-   return abonnement;
+log.info("in method");
+return abonnement;
     }
 
 
